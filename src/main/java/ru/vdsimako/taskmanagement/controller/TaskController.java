@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.vdsimako.taskmanagement.model.dto.TaskDto;
 import ru.vdsimako.taskmanagement.model.dto.UpdateTaskDto;
+import ru.vdsimako.taskmanagement.service.ITaskService;
 import ru.vdsimako.taskmanagement.service.TaskService;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 @RequestMapping("/task")
 public class TaskController {
 
-    private final TaskService taskService;
+    private final ITaskService taskService;
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
@@ -48,10 +49,11 @@ public class TaskController {
         return taskDto;
     }
 
-    @PutMapping
-    public TaskDto updateTask(@RequestBody UpdateTaskDto updateTaskDto) {
+    @PutMapping("/{id}")
+    public TaskDto updateTask(@PathVariable(name = "id") Long taskId,
+                              @RequestBody UpdateTaskDto updateTaskDto) {
 
-        TaskDto taskDto = taskService.updateTask(updateTaskDto);
+        TaskDto taskDto = taskService.updateTask(taskId, updateTaskDto);
 
         return taskDto;
     }
