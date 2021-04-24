@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.vdsimako.taskmanagement.model.dto.TaskDto;
 import ru.vdsimako.taskmanagement.model.dto.UpdateTaskDto;
 import ru.vdsimako.taskmanagement.service.ITaskService;
-import ru.vdsimako.taskmanagement.service.TaskService;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class TaskController {
 
     private final ITaskService taskService;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(ITaskService taskService) {
         this.taskService = taskService;
     }
 
