@@ -6,9 +6,7 @@ import ru.vdsimako.taskmanagement.model.exception.ExceptionMessage;
 import ru.vdsimako.taskmanagement.model.exception.TaskManagementException;
 
 import java.time.Instant;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,14 +15,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class TaskRepository implements ITaskRepository {
-    private static final Map<Long, Task> mapOfTask = Collections.synchronizedMap(new HashMap<>());
-    private static final AtomicLong taskSequence = new AtomicLong(0L);
+    private final Map<Long, Task> taskMap;
+    private final AtomicLong taskSequence;
+
+    public TaskRepository(Map<Long, Task> taskMap,
+                          AtomicLong taskSequence) {
+        this.taskMap = taskMap;
+        this.taskSequence = taskSequence;
+    }
 
 
     @Override
     public Optional<Task> getTask(Long id) {
 
-        Optional<Task> task = Optional.ofNullable(mapOfTask.get(id));
+        Optional<Task> task = Optional.ofNullable(taskMap.get(id));
 
         return task;
     }
@@ -32,7 +36,7 @@ public class TaskRepository implements ITaskRepository {
     @Override
     public List<Task> getTaskList() {
 
-        List<Task> taskList = mapOfTask.values()
+        List<Task> taskList = taskMap.values()
                 .stream()
                 .sorted(Comparator.comparing(Task::getLastModifiedDate))
                 .collect(Collectors.toList());
@@ -47,18 +51,23 @@ public class TaskRepository implements ITaskRepository {
         task.setId(taskId);
         task.setLastModifiedDate(Instant.now());
 
-        mapOfTask.putIfAbsent(taskId, task);
+        taskMap.put(taskId, task);
 
         return task;
     }
 
     @Override
-    public Task updateTask(Task task) {
+    public Task updateTask(Task taskForUpdate) {
+        Task task;
 
-        if (mapOfTask.containsKey(task.getId())) {
-            task = mapOfTask.get(task.getId());
+        if (taskMap.containsKey(taskForUpdate.getId())) {
+            task = taskMap.get(taskForUpdate.getId());
 
             task.setLastModifiedDate(Instant.now());
+
+            task.setName(taskForUpdate.getName());
+
+            task.setDescription(taskForUpdate.getDescription());
 
         } else {
             throw new TaskManagementException(ExceptionMessage.TASK_NOT_FOUND);
@@ -69,14 +78,14 @@ public class TaskRepository implements ITaskRepository {
 
     @Override
     public Task deleteTaskById(Long id) {
-        Task remove;
+        Task task;
 
-        if (mapOfTask.containsKey(id)) {
-            remove = mapOfTask.remove(id);
+        if (taskMap.containsKey(id)) {
+            task = taskMap.remove(id);
         } else {
             throw new TaskManagementException(ExceptionMessage.TASK_NOT_FOUND);
         }
 
-        return remove;
+        return task;
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.vdsimako.taskmanagement.model.dto.TaskDto;
 import ru.vdsimako.taskmanagement.model.dto.UpdateTaskDto;
 import ru.vdsimako.taskmanagement.model.entity.Task;
+import ru.vdsimako.taskmanagement.model.exception.ExceptionMessage;
+import ru.vdsimako.taskmanagement.model.exception.TaskManagementException;
 import ru.vdsimako.taskmanagement.repository.ITaskRepository;
 
 import java.util.List;
@@ -21,7 +23,8 @@ public class TaskService implements ITaskService {
 
     @Override
     public TaskDto getTask(Long id) {
-        Task task = taskRepository.getTask(id).orElseThrow(() -> new RuntimeException("task not found"));
+        Task task = taskRepository.getTask(id)
+                .orElseThrow(() -> new TaskManagementException(ExceptionMessage.TASK_NOT_FOUND));
 
         TaskDto taskDto = TaskDto.builder()
                 .id(task.getId())
