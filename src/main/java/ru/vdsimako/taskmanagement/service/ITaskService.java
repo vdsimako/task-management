@@ -12,7 +12,7 @@ public interface ITaskService {
 
     TaskDto createTask(TaskDto taskDto);
 
-    TaskDto updateTask(UpdateTaskDto updateTaskDto);
+    TaskDto updateTask(Long taskId, UpdateTaskDto updateTaskDto);
 
     TaskDto deleteTask(Long id);
 }
