@@ -3,8 +3,8 @@ package ru.vdsimako.taskmanagement;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class TaskManagementApplicationTests {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class TaskManagementApplicationTest {
 
     @Test
     void contextLoads() {

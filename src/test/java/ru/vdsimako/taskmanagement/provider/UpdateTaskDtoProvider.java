@@ -9,4 +9,10 @@ public class UpdateTaskDtoProvider {
                 .description("descriptionUpdated")
                 .build();
     }
+
+    public static UpdateTaskDto getInvalidUpdateTaskDto() {
+        return UpdateTaskDto.builder()
+                .description("descriptionUpdated")
+                .build();
+    }
 }
