@@ -63,6 +63,7 @@ public class TaskService implements ITaskService {
         task = taskRepository.createTask(task);
 
         taskDto.setId(task.getId());
+        taskDto.setLastModifiedDate(task.getLastModifiedDate());
         return taskDto;
     }
 

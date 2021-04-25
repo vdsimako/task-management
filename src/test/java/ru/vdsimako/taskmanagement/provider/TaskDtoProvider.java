@@ -47,4 +47,10 @@ public class TaskDtoProvider {
                 .lastModifiedDate(Instant.now())
                 .build();
     }
+
+    public static TaskDto getInvalidTaskDto() {
+        return TaskDto.builder()
+                .description("descriptionUpdated")
+                .build();
+    }
 }

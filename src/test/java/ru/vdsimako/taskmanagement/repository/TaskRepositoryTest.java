@@ -28,12 +28,12 @@ class TaskRepositoryTest {
     @MethodSource("ru.vdsimako.taskmanagement.argument.TaskRepositoryTestArg#getTask_whenTaskId_thenTask")
     void getTask_whenTaskId_thenTask(Long taskId,
                                      Task task,
-                                     Optional<Task> taskExpected) {
+                                     Optional<Task> taskOptionalExpected) {
         when(taskMap.get(taskId)).thenReturn(task);
 
         Optional<Task> taskActual = taskRepository.getTask(taskId);
 
-        assertEquals(taskExpected, taskActual);
+        assertEquals(taskOptionalExpected, taskActual);
     }
 
     @ParameterizedTest

@@ -8,8 +8,8 @@ public enum ExceptionMessage {
 
     TASK_NOT_FOUND(HttpStatus.NOT_FOUND, "Task not found");
 
-    private HttpStatus httpStatus;
-    private String description;
+    private final HttpStatus httpStatus;
+    private final String description;
 
     ExceptionMessage(HttpStatus httpStatus,
                      String description) {

@@ -105,4 +105,8 @@ public class TaskProvider {
                 .lastModifiedDate(Instant.now())
                 .build();
     }
+
+    public static Long getInvalidTaskId() {
+        return 0L;
+    }
 }
